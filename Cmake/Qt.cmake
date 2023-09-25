@@ -1,0 +1,29 @@
+# General settings
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+# User settings
+if(NOT DEFINED QT_VERSION)
+    set(QT_VERSION Qt5)
+endif()
+
+if((NOT DEFINED QT_COMPONENTS) OR (NOT DEFINED QT_LIBRARIES))
+    set(QT_COMPONENTS Widgets Quick Core SerialPort)
+    set(QT_LIBRARIES  ${QT_VERSION}::Widgets ${QT_VERSION}::Quick ${QT_VERSION}::Core ${QT_VERSION}::SerialPort)
+endif()
+
+# Configure GUI
+set(GUI_TYPE "")
+if(APPLE)
+    set(GUI_TYPE MACOSX_BUNDLE)
+elseif(WIN32)
+    set(GUI_TYPE WIN32)
+endif()
+
+# Find and linking
+find_package(${QT_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED)
+set(LINKED_LIBRARIES ${LINKED_LIBRARIES} ${QT_LIBRARIES})
